@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand w-100 sticky-top" style="background-color: #2b5e2e;">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white" href="/">
+      <img class="logo-img" src="/img/logo.png" alt="Logo">
+    </a>
+
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
+      <li class="nav-item"><a class="nav-link text-white" href="/about">About</a></li>
+      <li class="nav-item"><a class="nav-link text-white" href="/my-expenses">My Expenses</a></li>
+
+      <% if (!user) { %>
+        <!-- User not logged in -->
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/login">
+            <i class="fa-solid fa-user" style="margin-right: 1.5rem; margin-left: 2rem;"></i>
+          </a>
+        </li>
+      <% } else { %>
+        <!-- User logged in -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="rounded-circle bg-light text-dark d-flex justify-content-center align-items-center" style="width: 35px; height: 35px; font-weight: bold;">
+              <%= user.username.charAt(0).toUpperCase() %>
+            </div>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" href="/change-password">Change Password</a></li>
+            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+          </ul>
+        </li>
+      <% } %>
+    </ul>
+  </div>
+</nav>

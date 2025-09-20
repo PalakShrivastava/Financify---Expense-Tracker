@@ -1,0 +1,60 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="next">
+
+  <!-- Total Amount Input -->
+  <div class="d-flex justify-content-center" style="margin-top: 2rem;">
+    <div class="input-group mb-3" style="max-width: 400px;">
+      <input type="text" id="currentAmount" class="form-control" placeholder="Enter total amount">
+      <button id="enterBtn" class="btn btn-success">Enter</button>
+    </div>
+  </div>
+
+  <!-- White transparent box (hidden by default) -->
+  <div id="expenseBox" 
+       class="container mt-4 p-4 shadow-lg"
+       style="max-width: 650px; background: rgba(255,255,255,0.85); border-radius: 15px; display: none;">
+    
+    <!-- Current amount display -->
+    <p id="showAmount" class="fw-bold text-success mb-3"></p>
+
+    <!-- Row 1: Heading + Category -->
+    <div class="row align-items-center mb-3">
+      <div class="col-md-6">
+        <h5 class="mb-0">Enter Your Expense Details</h5>
+      </div>
+      <div class="col-md-6">
+        <select id="category" class="form-select">
+          <option value="" disabled selected>Select Category</option>
+          <option>Food</option>
+          <option>Travel</option>
+          <option>Shopping</option>
+          <option>Bills</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Row 2: Item + Amount + Add Button -->
+    <div class="row g-2 mb-3">
+      <div class="col-md-5">
+        <input type="text" id="item" class="form-control" placeholder="Item Name">
+      </div>
+      <div class="col-md-3">
+        <input type="text" id="amount" class="form-control" placeholder="Amount">
+      </div>
+      <div class="col-md-4">
+        <button id="addBtn" class="btn btn-success w-100">Add</button>
+      </div>
+    </div>
+
+    <!-- Added Items List -->
+    <ul id="expenseList" class="list-group mb-3"></ul>
+
+    <!-- Save Button (direct save) -->
+    <form action="/expenses/save" method="POST" id="saveForm">
+      <input type="hidden" name="expenses" id="expensesInput">
+      <button type="submit" class="btn btn-dark w-100">Save</button>
+    </form>
+  </div>
+</div>

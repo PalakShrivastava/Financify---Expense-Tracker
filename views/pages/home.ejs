@@ -1,0 +1,27 @@
+<% layout("/layouts/boilerplate") %>
+
+<body>
+  <div class="home">
+    <%- include("../includes/heading.ejs") %>
+
+    <div class="img-container">
+      <img src="/img/img.png" alt="image">
+      <div class="right-section">
+        <h2>Start tracking your expenses today!</h2>
+
+        <% if (user) { %>
+          <!-- Agar user login hai -->
+          <form action="/next">
+            <button class="start-btn btn btn-success">Start Now</button>
+          </form>
+        <% } else { %>
+          <!-- Agar user login nahi hai -->
+          <form action="/login">
+            <button class="start-btn btn btn-success">Start Now</button>
+          </form>
+        <% } %>
+
+      </div>
+    </div>
+  </div>
+</body>
