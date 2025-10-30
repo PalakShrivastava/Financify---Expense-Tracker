@@ -15,18 +15,17 @@ const ExpenseGroup = require("./models/expenseGroup");
 // Routes
 const authRoutes = require("./routes/auth");
 
-// ------------------------
 // Connect to MongoDB
-// ------------------------
+
 main().catch(err => console.log(err));
 async function main() {
   await mongoose.connect('mongodb://127.0.0.1:27017/financify');
   console.log("Connected successfully to MongoDB");
 }
 
-// ------------------------
+
 // App settings
-// ------------------------
+
 app.set("view engine","ejs");
 app.engine('ejs', engine); 
 app.set("views", path.join(__dirname, "views"));
@@ -34,15 +33,15 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
 
-// ------------------------
+
 // Body parser
-// ------------------------
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// ------------------------
+
 // Session setup
-// ------------------------
+
 app.use(
   session({
     secret: "secretcode",
@@ -51,34 +50,31 @@ app.use(
   })
 );
 
-// ------------------------
+
 // Passport setup
-// ------------------------
+
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// ------------------------
+
 // Make user available in all views
-// ------------------------
+
 app.use((req, res, next) => {
   res.locals.user = req.user; // current logged-in user
   next();
 });
 
-// ------------------------
+
 // Middleware to protect routes
-// ------------------------
+
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) return next();
   res.redirect("/login");
 }
 
-// ------------------------
-// Routes
-// ------------------------
 app.use("/", authRoutes);
 
 // Root route
@@ -89,7 +85,7 @@ app.get("/", (req, res) => {
   });
 });
 
-// Expense entry page (Protected)
+
 app.get("/next", isLoggedIn, (req, res) => {
   res.render("pages/next", { 
     title: "Track Your Expenses", 
@@ -97,7 +93,7 @@ app.get("/next", isLoggedIn, (req, res) => {
   });
 });
 
-// Save group of expenses (Protected)
+
 app.post("/expenses/save", isLoggedIn, async (req, res) => {
   try {
     const { expenses } = req.body;
@@ -126,7 +122,7 @@ app.post("/expenses/save", isLoggedIn, async (req, res) => {
   }
 });
 
-// Show all saved groups (only current user's groups)
+
 app.get("/my-expenses", isLoggedIn, async (req, res) => {
   try {
     const groups = await ExpenseGroup.find({ user: req.user._id });
@@ -141,7 +137,7 @@ app.get("/my-expenses", isLoggedIn, async (req, res) => {
   }
 });
 
-// Show details of a specific group (only if owned by user)
+
 app.get("/my-expenses/:id", isLoggedIn, async (req, res) => {
   try {
     const group = await ExpenseGroup.findById(req.params.id);
@@ -182,9 +178,9 @@ app.delete("/my-expenses/:id", isLoggedIn, async (req, res) => {
   }
 });
 
-// ------------------------
+
 // Start server
-// ------------------------
+
 const port = 3000;
 app.listen(port, () => {
   console.log("Server is listening on port", port);
