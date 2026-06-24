@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -19,7 +20,7 @@ const authRoutes = require("./routes/auth");
 
 main().catch(err => console.log(err));
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/financify');
+  await mongoose.connect(process.env.MONGO_URI);
   console.log("Connected successfully to MongoDB");
 }
 
@@ -41,10 +42,9 @@ app.use(express.json());
 
 
 // Session setup
-
 app.use(
   session({
-    secret: "secretcode",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
@@ -52,7 +52,6 @@ app.use(
 
 
 // Passport setup
-
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
@@ -61,7 +60,6 @@ passport.deserializeUser(User.deserializeUser());
 
 
 // Make user available in all views
-
 app.use((req, res, next) => {
   res.locals.user = req.user; // current logged-in user
   next();
