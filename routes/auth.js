@@ -4,9 +4,8 @@ const User = require("../models/user");
 
 const router = express.Router();
 
-// =======================
+
 // SIGN UP form
-// =======================
 router.get("/signUp", (req, res) => {
   res.render("pages/signUp", { 
     title: "Sign Up", 
@@ -15,9 +14,8 @@ router.get("/signUp", (req, res) => {
   });
 });
 
-// =======================
+
 // SIGN UP user
-// =======================
 router.post("/signUp", async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
@@ -38,9 +36,8 @@ router.post("/signUp", async (req, res, next) => {
   }
 });
 
-// =======================
+
 // LOGIN form
-// =======================
 router.get("/login", (req, res) => {
   res.render("pages/login", { 
     title: "Login", 
@@ -49,9 +46,8 @@ router.get("/login", (req, res) => {
   });
 });
 
-// =======================
+
 // LOGIN user
-// =======================
 router.post(
   "/login",
   passport.authenticate("local", {
@@ -62,10 +58,12 @@ router.post(
     res.redirect("/");
   }
 );
+
 // GET Change Password form
 router.get("/change-password", isLoggedIn, (req, res) => {
   res.render("pages/changePassword", { title: "Change Password", hideNavbar: false, user: req.user });
 });
+
 
 // POST Change Password
 router.post("/change-password", isLoggedIn, async (req, res, next) => {
@@ -85,9 +83,8 @@ router.post("/change-password", isLoggedIn, async (req, res, next) => {
   }
 });
 
-// =======================
+
 // LOGOUT user
-// =======================
 router.get("/logout", (req, res, next) => {
   req.logout((err) => {
     if (err) return next(err);
@@ -96,9 +93,8 @@ router.get("/logout", (req, res, next) => {
   });
 });
 
-// =======================
+
 // PROTECTED dashboard
-// =======================
 router.get("/dashboard", isLoggedIn, (req, res) => {
   res.render("pages/dashboard", {
     title: "Dashboard",
@@ -107,9 +103,8 @@ router.get("/dashboard", isLoggedIn, (req, res) => {
   });
 });
 
-// =======================
-// Middleware
-// =======================
+
+// MIDDLEWEAR
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) return next();
   res.redirect("/login");

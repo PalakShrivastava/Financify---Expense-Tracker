@@ -28,9 +28,8 @@ const expenseGroupSchema = new mongoose.Schema({
       }
     }
   ],
-  // -------------------------------
-  // Reference to the user who owns this group
-  // -------------------------------
+
+  
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
